@@ -33,7 +33,6 @@ See [the project documentation](https://godoc.org/github.com/malusev998/jwt-go/v
 - [Simple example of parsing and validating a token](https://godoc.org/github.com/dgrijalva/jwt-go#example-Parse--Hmac)
 - [Simple example of building and signing a token](https://godoc.org/github.com/dgrijalva/jwt-go#example-New--Hmac)
 - [Directory of Examples](https://godoc.org/github.com/dgrijalva/jwt-go#pkg-examples)
-  > > > > > > > origin/release_4_0_0
 
 ## Extensions
 
@@ -51,17 +50,9 @@ This library was last reviewed to comply with [RTF 7519](http://www.rfc-editor.o
 
 This library is considered production ready. Feedback and feature requests are appreciated. The API should be considered stable. There should be very few backwards-incompatible changes outside of major version updates (and only with good reason).
 
-<<<<<<< HEAD
 This project uses [Semantic Versioning 2.0.0](http://semver.org). Accepted pull requests will land on `master`. Periodically, versions will be tagged from `master`. You can find all the releases on [the project releases page](https://github.com/malusev998/jwt-go/v4/releases).
 
 While we try to make it obvious when we make breaking changes, there isn't a great mechanism for pushing announcements out to users. You may want to use this alternative package include: `gopkg.in/dgrijalva/jwt-go.v3`. It will do the right thing WRT semantic versioning.
-
-**BREAKING CHANGES:\***
-
-- # Version 3.0.0 includes _a lot_ of changes from the 2.x line, including a few that break the API. We've tried to break as few things as possible, so there should just be a few type signature changes. A full list of breaking changes is available in `VERSION_HISTORY.md`. See `MIGRATION_GUIDE.md` for more information on updating your code.
-  This project uses [Semantic Versioning 2.0.0](http://semver.org). Accepted pull requests will land on `master`. Periodically, versions will be tagged from `master`. You can find all the releases on [the project releases page](https://github.com/dgrijalva/jwt-go/releases).
-
-As of version 4, this project is compatible with go modules. You should use that to ensure you have no unpleasant surprises when updating.
 
 **BREAKING CHANGES:\***
 
@@ -76,7 +67,7 @@ A token is simply a JSON object that is signed by its author. this tells you exa
 - The author of the token was in the possession of the signing secret
 - The data has not been modified since it was signed
 
-It's important to know that JWT does not provide encryption, which means anyone who has access to the token can read its contents. If you need to protect (encrypt) the data, there is a companion spec, `JWE`, that provides this functionality. JWE is currently outside the scope of this library.
+It's important to know that JWT does not provide encryption, which means anyone who has access to the token can read its contents. If you need to protect (encrypt) the data, there is a companion spec, `JWE`, that provides this functionality. JWE is outside the scope of this library.
 
 ### Choosing a Signing Method
 
