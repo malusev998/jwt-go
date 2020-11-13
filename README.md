@@ -5,7 +5,7 @@
 
 A [go](http://www.golang.org) (or 'golang' for search engine friendliness) implementation of [JSON Web Tokens](http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html)
 
-**NEW VERSION COMING:** There have been a lot of improvements suggested since the version 3.0.0 released in 2016. I'm working now on cutting two different releases: 3.2.0 will contain any non-breaking changes or enhancements. 4.0.0 will follow shortly which will include breaking changes. See the 4.0.0 milestone to get an idea of what's coming. If you have other ideas, or would like to participate in 4.0.0, now's the time. If you depend on this library and don't want to be interrupted, I recommend you use your dependency mangement tool to pin to version 3.
+**NEW VERSION:** Version 4 of this library is now available. This is the first non-backward-compatible version in a long time. There are a few changes that all users will notice, such as the new types introduced in members of `StandardClaims`. More changes are additive or only impact more advanced use. See VERSION_HISTORY.md for a list of changes as well as **TODO** MIGRATION_GUIDE.md for help updating your code.
 
 **SECURITY NOTICE:** Some older versions of Go have a security issue in the cryotp/elliptic. Recommendation is to upgrade to at least 1.8.3. See issue #216 for more detail.
 
@@ -29,9 +29,15 @@ This library supports the parsing and verification as well as the generation and
 
 See [the project documentation](https://godoc.org/github.com/malusev998/jwt-go/v4) for examples of usage:
 
+<<<<<<< HEAD
+
 - [Simple example of parsing and validating a token](https://godoc.org/github.com/malusev998/jwt-go/v4#example-Parse--Hmac)
 - [Simple example of building and signing a token](https://godoc.org/github.com/malusev998/jwt-go/v4#example-New--Hmac)
-- [Directory of Examples](https://godoc.org/github.com/malusev998/jwt-go/v4#pkg-examples)
+- # [Directory of Examples](https://godoc.org/github.com/malusev998/jwt-go/v4#pkg-examples)
+- [Simple example of parsing and validating a token](https://godoc.org/github.com/dgrijalva/jwt-go#example-Parse--Hmac)
+- [Simple example of building and signing a token](https://godoc.org/github.com/dgrijalva/jwt-go#example-New--Hmac)
+- [Directory of Examples](https://godoc.org/github.com/dgrijalva/jwt-go#pkg-examples)
+  > > > > > > > origin/release_4_0_0
 
 ## Extensions
 
@@ -49,13 +55,22 @@ This library was last reviewed to comply with [RTF 7519](http://www.rfc-editor.o
 
 This library is considered production ready. Feedback and feature requests are appreciated. The API should be considered stable. There should be very few backwards-incompatible changes outside of major version updates (and only with good reason).
 
+<<<<<<< HEAD
 This project uses [Semantic Versioning 2.0.0](http://semver.org). Accepted pull requests will land on `master`. Periodically, versions will be tagged from `master`. You can find all the releases on [the project releases page](https://github.com/malusev998/jwt-go/v4/releases).
 
 While we try to make it obvious when we make breaking changes, there isn't a great mechanism for pushing announcements out to users. You may want to use this alternative package include: `gopkg.in/dgrijalva/jwt-go.v3`. It will do the right thing WRT semantic versioning.
 
 **BREAKING CHANGES:\***
 
-- Version 3.0.0 includes _a lot_ of changes from the 2.x line, including a few that break the API. We've tried to break as few things as possible, so there should just be a few type signature changes. A full list of breaking changes is available in `VERSION_HISTORY.md`. See `MIGRATION_GUIDE.md` for more information on updating your code.
+- # Version 3.0.0 includes _a lot_ of changes from the 2.x line, including a few that break the API. We've tried to break as few things as possible, so there should just be a few type signature changes. A full list of breaking changes is available in `VERSION_HISTORY.md`. See `MIGRATION_GUIDE.md` for more information on updating your code.
+  This project uses [Semantic Versioning 2.0.0](http://semver.org). Accepted pull requests will land on `master`. Periodically, versions will be tagged from `master`. You can find all the releases on [the project releases page](https://github.com/dgrijalva/jwt-go/releases).
+
+As of version 4, this project is compatible with go modules. You should use that to ensure you have no unpleasant surprises when updating.
+
+**BREAKING CHANGES:\***
+
+- Version 4.0.0 includes _a lot_ of changes from the 3.x line, including a few that break the API. We've tried to break as few things as possible, so there should just be a few type signature changes. A full list of breaking changes is available in `VERSION_HISTORY.md`. See `MIGRATION_GUIDE.md` for more information on updating your code.
+  > > > > > > > origin/release_4_0_0
 
 ## Usage Tips
 
@@ -80,9 +95,15 @@ Asymmetric signing methods, such as RSA, use different keys for signing and veri
 
 Each signing method expects a different object type for its signing keys. See the package documentation for details. Here are the most common ones:
 
+<<<<<<< HEAD
+
 - The [HMAC signing method](https://godoc.org/github.com/malusev998/jwt-go/v4#SigningMethodHMAC) (`HS256`,`HS384`,`HS512`) expect `[]byte` values for signing and validation
 - The [RSA signing method](https://godoc.org/github.com/malusev998/jwt-go/v4#SigningMethodRSA) (`RS256`,`RS384`,`RS512`) expect `*rsa.PrivateKey` for signing and `*rsa.PublicKey` for validation
-- The [ECDSA signing method](https://godoc.org/github.com/malusev998/jwt-go/v4#SigningMethodECDSA) (`ES256`,`ES384`,`ES512`) expect `*ecdsa.PrivateKey` for signing and `*ecdsa.PublicKey` for validation
+- # The [ECDSA signing method](https://godoc.org/github.com/malusev998/jwt-go/v4#SigningMethodECDSA) (`ES256`,`ES384`,`ES512`) expect `*ecdsa.PrivateKey` for signing and `*ecdsa.PublicKey` for validation
+- The [HMAC signing method](https://godoc.org/github.com/dgrijalva/jwt-go#SigningMethodHMAC) (`HS256`,`HS384`,`HS512`) expect `[]byte` values for signing and validation
+- The [RSA signing method](https://godoc.org/github.com/dgrijalva/jwt-go#SigningMethodRSA) (`RS256`,`RS384`,`RS512`) expect `*rsa.PrivateKey` for signing and `*rsa.PublicKey` for validation
+- The [ECDSA signing method](https://godoc.org/github.com/dgrijalva/jwt-go#SigningMethodECDSA) (`ES256`,`ES384`,`ES512`) expect `*ecdsa.PrivateKey` for signing and `*ecdsa.PublicKey` for validation
+  > > > > > > > origin/release_4_0_0
 
 ### JWT and OAuth
 

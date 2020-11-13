@@ -3,6 +3,7 @@ package test
 import (
 	"crypto/rsa"
 	"io/ioutil"
+	"time"
 
 	"github.com/malusev998/jwt-go/v4"
 )
@@ -40,4 +41,13 @@ func MakeSampleToken(c jwt.Claims, key interface{}) string {
 	}
 
 	return s
+}
+
+// At overrides time value for tests.  Restore default value after.
+func At(t time.Time, f func()) {
+	jwt.TimeFunc = func() time.Time {
+		return t
+	}
+	f()
+	jwt.TimeFunc = time.Now
 }

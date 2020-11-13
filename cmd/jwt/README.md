@@ -13,6 +13,8 @@ To simply display a token, use:
 
     echo $JWT | ./jwt -show -
 
-You can install this tool with the following command:
+## Installation
 
-     go install github.com/malusev998/jwt-go/v4/cmd/jwt
+Simply: `go install github.com/malusev998/jwt-go/v4/cmd/jwt`
+
+Or you can download the code, compile it, and put the result wherever you like.
