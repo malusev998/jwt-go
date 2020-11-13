@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
-	"github.com/dgrijalva/jwt-go/test"
+	"github.com/malusev998/jwt-go"
+	"github.com/malusev998/jwt-go/test"
 )
 
 var rsaPSSTestData = []struct {
@@ -106,7 +106,7 @@ func TestRSAPSSSaltLengthCompatibility(t *testing.T) {
 		},
 	}
 
-	// Behaves as before https://github.com/dgrijalva/jwt-go/issues/285 fix.
+	// Behaves as before https://github.com/malusev998/jwt-go/issues/285 fix.
 	ps256SaltLengthAuto := &jwt.SigningMethodRSAPSS{
 		SigningMethodRSA: jwt.SigningMethodPS256.SigningMethodRSA,
 		Options: &rsa.PSSOptions{

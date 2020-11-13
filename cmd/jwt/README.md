@@ -1,5 +1,4 @@
-`jwt` command-line tool
-=======================
+# `jwt` command-line tool
 
 This is a simple tool to sign, verify and show JSON Web Tokens from
 the command line.
@@ -16,5 +15,4 @@ To simply display a token, use:
 
 You can install this tool with the following command:
 
-     go install github.com/dgrijalva/jwt-go/cmd/jwt
-
+     go install github.com/malusev998/jwt-go/cmd/jwt
