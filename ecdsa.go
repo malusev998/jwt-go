@@ -31,19 +31,34 @@ var (
 
 func init() {
 	// ES256
-	SigningMethodES256 = &SigningMethodECDSA{"ES256", crypto.SHA256, 32, 256}
+	SigningMethodES256 = &SigningMethodECDSA{
+		Name:      "ES256",
+		Hash:      crypto.SHA256,
+		KeySize:   32,
+		CurveBits: 256,
+	}
 	RegisterSigningMethod(SigningMethodES256.Alg(), func() SigningMethod {
 		return SigningMethodES256
 	})
 
 	// ES384
-	SigningMethodES384 = &SigningMethodECDSA{"ES384", crypto.SHA384, 48, 384}
+	SigningMethodES384 = &SigningMethodECDSA{
+		Name:      "ES384",
+		Hash:      crypto.SHA384,
+		KeySize:   48,
+		CurveBits: 384,
+	}
 	RegisterSigningMethod(SigningMethodES384.Alg(), func() SigningMethod {
 		return SigningMethodES384
 	})
 
 	// ES512
-	SigningMethodES512 = &SigningMethodECDSA{"ES512", crypto.SHA512, 66, 521}
+	SigningMethodES512 = &SigningMethodECDSA{
+		Name:      "ES512",
+		Hash:      crypto.SHA512,
+		KeySize:   66,
+		CurveBits: 521,
+	}
 	RegisterSigningMethod(SigningMethodES512.Alg(), func() SigningMethod {
 		return SigningMethodES512
 	})
@@ -115,34 +130,34 @@ func (m *SigningMethodECDSA) Sign(signingString string, key interface{}) (string
 	hasher := m.Hash.New()
 	hasher.Write([]byte(signingString))
 
+	r, s, err := ecdsa.Sign(rand.Reader, ecdsaKey, hasher.Sum(nil))
 	// Sign the string and return r, s
-	if r, s, err := ecdsa.Sign(rand.Reader, ecdsaKey, hasher.Sum(nil)); err == nil {
-		curveBits := ecdsaKey.Curve.Params().BitSize
-
-		if m.CurveBits != curveBits {
-			return "", ErrInvalidKey
-		}
-
-		keyBytes := curveBits / 8
-		if curveBits%8 > 0 {
-			keyBytes += 1
-		}
-
-		// We serialize the outpus (r and s) into big-endian byte arrays and pad
-		// them with zeros on the left to make sure the sizes work out. Both arrays
-		// must be keyBytes long, and the output must be 2*keyBytes long.
-		rBytes := r.Bytes()
-		rBytesPadded := make([]byte, keyBytes)
-		copy(rBytesPadded[keyBytes-len(rBytes):], rBytes)
-
-		sBytes := s.Bytes()
-		sBytesPadded := make([]byte, keyBytes)
-		copy(sBytesPadded[keyBytes-len(sBytes):], sBytes)
-
-		out := append(rBytesPadded, sBytesPadded...)
-
-		return EncodeSegment(out), nil
-	} else {
+	if err != nil {
 		return "", err
 	}
+	curveBits := ecdsaKey.Curve.Params().BitSize
+
+	if m.CurveBits != curveBits {
+		return "", ErrInvalidKey
+	}
+
+	keyBytes := curveBits / 8
+	if curveBits%8 > 0 {
+		keyBytes += 1
+	}
+
+	// We serialize the outpus (r and s) into big-endian byte arrays and pad
+	// them with zeros on the left to make sure the sizes work out. Both arrays
+	// must be keyBytes long, and the output must be 2*keyBytes long.
+	rBytes := r.Bytes()
+	rBytesPadded := make([]byte, keyBytes)
+	copy(rBytesPadded[keyBytes-len(rBytes):], rBytes)
+
+	sBytes := s.Bytes()
+	sBytesPadded := make([]byte, keyBytes)
+	copy(sBytesPadded[keyBytes-len(sBytes):], sBytes)
+
+	out := append(rBytesPadded, sBytesPadded...)
+
+	return EncodeSegment(out), nil
 }
