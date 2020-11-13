@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/malusev998/jwt-go"
+	"github.com/malusev998/jwt-go/v4"
 )
 
 var hmacTestData = []struct {

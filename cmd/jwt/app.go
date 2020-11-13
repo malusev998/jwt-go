@@ -16,7 +16,7 @@ import (
 	"regexp"
 	"strings"
 
-	jwt "github.com/malusev998/jwt-go"
+	jwt "github.com/malusev998/jwt-go/v4"
 )
 
 var (
