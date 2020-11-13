@@ -7,8 +7,6 @@ A [go](http://www.golang.org) (or 'golang' for search engine friendliness) imple
 
 **NEW VERSION:** Version 4 of this library is now available. This is the first non-backward-compatible version in a long time. There are a few changes that all users will notice, such as the new types introduced in members of `StandardClaims`. More changes are additive or only impact more advanced use. See VERSION_HISTORY.md for a list of changes as well as **TODO** MIGRATION_GUIDE.md for help updating your code.
 
-**SECURITY NOTICE:** Some older versions of Go have a security issue in the cryotp/elliptic. Recommendation is to upgrade to at least 1.8.3. See issue #216 for more detail.
-
 **SECURITY NOTICE:** It's important that you [validate the `alg` presented is what you expect](https://auth0.com/blog/critical-vulnerabilities-in-json-web-token-libraries/). This library attempts to make it easy to do the right thing by requiring key types match the expected alg, but you should take the extra step to verify it in your usage. See the examples provided.
 
 ## What the heck is a JWT?
@@ -28,8 +26,6 @@ This library supports the parsing and verification as well as the generation and
 ## Examples
 
 See [the project documentation](https://godoc.org/github.com/malusev998/jwt-go/v4) for examples of usage:
-
-<<<<<<< HEAD
 
 - [Simple example of parsing and validating a token](https://godoc.org/github.com/malusev998/jwt-go/v4#example-Parse--Hmac)
 - [Simple example of building and signing a token](https://godoc.org/github.com/malusev998/jwt-go/v4#example-New--Hmac)
@@ -70,7 +66,6 @@ As of version 4, this project is compatible with go modules. You should use that
 **BREAKING CHANGES:\***
 
 - Version 4.0.0 includes _a lot_ of changes from the 3.x line, including a few that break the API. We've tried to break as few things as possible, so there should just be a few type signature changes. A full list of breaking changes is available in `VERSION_HISTORY.md`. See `MIGRATION_GUIDE.md` for more information on updating your code.
-  > > > > > > > origin/release_4_0_0
 
 ## Usage Tips
 
@@ -95,15 +90,12 @@ Asymmetric signing methods, such as RSA, use different keys for signing and veri
 
 Each signing method expects a different object type for its signing keys. See the package documentation for details. Here are the most common ones:
 
-<<<<<<< HEAD
-
 - The [HMAC signing method](https://godoc.org/github.com/malusev998/jwt-go/v4#SigningMethodHMAC) (`HS256`,`HS384`,`HS512`) expect `[]byte` values for signing and validation
 - The [RSA signing method](https://godoc.org/github.com/malusev998/jwt-go/v4#SigningMethodRSA) (`RS256`,`RS384`,`RS512`) expect `*rsa.PrivateKey` for signing and `*rsa.PublicKey` for validation
 - # The [ECDSA signing method](https://godoc.org/github.com/malusev998/jwt-go/v4#SigningMethodECDSA) (`ES256`,`ES384`,`ES512`) expect `*ecdsa.PrivateKey` for signing and `*ecdsa.PublicKey` for validation
 - The [HMAC signing method](https://godoc.org/github.com/dgrijalva/jwt-go#SigningMethodHMAC) (`HS256`,`HS384`,`HS512`) expect `[]byte` values for signing and validation
 - The [RSA signing method](https://godoc.org/github.com/dgrijalva/jwt-go#SigningMethodRSA) (`RS256`,`RS384`,`RS512`) expect `*rsa.PrivateKey` for signing and `*rsa.PublicKey` for validation
 - The [ECDSA signing method](https://godoc.org/github.com/dgrijalva/jwt-go#SigningMethodECDSA) (`ES256`,`ES384`,`ES512`) expect `*ecdsa.PrivateKey` for signing and `*ecdsa.PublicKey` for validation
-  > > > > > > > origin/release_4_0_0
 
 ### JWT and OAuth
 
