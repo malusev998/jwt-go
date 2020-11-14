@@ -201,24 +201,6 @@ var jwtTestData = []struct {
 		jwt.NewParser(),
 	},
 	{
-		"Audience - Ignored",
-		"", // autogen
-		defaultKeyFunc,
-		jwt.MapClaims{"aud": []interface{}{"foo", "bar"}},
-		true,
-		nil,
-		jwt.NewParser(jwt.WithoutAudienceValidation()),
-	},
-	{
-		"Audience - Pass",
-		"", // autogen
-		defaultKeyFunc,
-		jwt.MapClaims{"aud": []interface{}{"foo", "bar"}},
-		true,
-		nil,
-		jwt.NewParser(jwt.WithAudience("foo")),
-	},
-	{
 		"Audience - Fail",
 		"", // autogen
 		defaultKeyFunc,

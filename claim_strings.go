@@ -17,16 +17,6 @@ func ParseClaimStrings(value interface{}) (ClaimStrings, error) {
 		return ClaimStrings{v}, nil
 	case []string:
 		return ClaimStrings(v), nil
-	case []interface{}:
-		result := make(ClaimStrings, 0, len(v))
-		for i, vv := range v {
-			if x, ok := vv.(string); ok {
-				result = append(result, x)
-			} else {
-				return nil, &json.UnsupportedTypeError{Type: reflect.TypeOf(v[i])}
-			}
-		}
-		return result, nil
 	case nil:
 		return nil, nil
 	default:
