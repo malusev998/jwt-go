@@ -45,10 +45,36 @@ var hmacTestData = []struct {
 	},
 }
 
-// Sample data from http://tools.ietf.org/html/draft-jones-json-web-signature-04#appendix-A.1
-var hmacTestKey, _ = ioutil.ReadFile("test/hmacTestKey")
+func TestHMAC_Blake2b(t *testing.T) {
+	t.Parallel()
+	var hmacTestKey, _ = ioutil.ReadFile("test/hmacTestKey")
+	for _, data := range hmacTestData {
+		if !data.valid {
+			continue
+		}
+		parts := strings.Split(data.tokenString, ".")
+
+		method := jwt.GetSigningMethod(data.alg)
+		sig, err := method.Sign(strings.Join(parts[0:2], "."), hmacTestKey)
+		if err != nil {
+			t.Errorf("[%v] Error signing token: %v", data.name, err)
+		}
+		if sig != parts[2] {
+			t.Errorf("[%v] Incorrect signature.\nwas:\n%v\nexpecting:\n%v", data.name, sig, parts[2])
+		}
+		err = method.Verify(strings.Join(parts[0:2], "."), sig, hmacTestKey)
+		if data.valid && err != nil {
+			t.Errorf("[%v] Error while verifying key: %v", data.name, err)
+		}
+		if !data.valid && err == nil {
+			t.Errorf("[%v] Invalid key passed validation", data.name)
+		}
+	}
+}
 
 func TestHMACVerify(t *testing.T) {
+	t.Parallel()
+	var hmacTestKey, _ = ioutil.ReadFile("test/hmacTestKey")
 	for _, data := range hmacTestData {
 		parts := strings.Split(data.tokenString, ".")
 
@@ -64,20 +90,28 @@ func TestHMACVerify(t *testing.T) {
 }
 
 func TestHMACSign(t *testing.T) {
+	t.Parallel()
+	var hmacTestKey, _ = ioutil.ReadFile("test/hmacTestKey")
 	for _, data := range hmacTestData {
-		if data.valid {
-			parts := strings.Split(data.tokenString, ".")
-			method := jwt.GetSigningMethod(data.alg)
-			sig, err := method.Sign(strings.Join(parts[0:2], "."), hmacTestKey)
-			if err != nil {
-				t.Errorf("[%v] Error signing token: %v", data.name, err)
-			}
-			if sig != parts[2] {
-				t.Errorf("[%v] Incorrect signature.\nwas:\n%v\nexpecting:\n%v", data.name, sig, parts[2])
-			}
+		if !data.valid {
+			continue
+		}
+		parts := strings.Split(data.tokenString, ".")
+		method := jwt.GetSigningMethod(data.alg)
+		sig, err := method.Sign(strings.Join(parts[0:2], "."), hmacTestKey)
+		if err != nil {
+			t.Errorf("[%v] Error signing token: %v", data.name, err)
+		}
+		if sig != parts[2] {
+			t.Errorf("[%v] Incorrect signature.\nwas:\n%v\nexpecting:\n%v", data.name, sig, parts[2])
 		}
 	}
 }
+
+
+// Sample data from http://tools.ietf.org/html/draft-jones-json-web-signature-04#appendix-A.1
+var hmacTestKey, _ = ioutil.ReadFile("test/hmacTestKey")
+
 
 func BenchmarkHS256Signing(b *testing.B) {
 	benchmarkSigning(b, jwt.SigningMethodHS256, hmacTestKey)

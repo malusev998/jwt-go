@@ -17,16 +17,16 @@ var DefaultValidationHelper = &ValidationHelper{}
 type ValidationHelper struct {
 	nowFunc      func() time.Time // Override for time.Now. Mostly used for testing
 	leeway       time.Duration    // Leeway to provide when validating time values
-	audience     *string          // Expected audience value
+	audience     string          // Expected audience value
 	skipAudience bool             // Ignore aud check
-	issuer       *string          // Expected issuer value. ignored if nil
+	issuer       string          // Expected issuer value. ignored if nil
 }
 
 // NewValidationHelper creates a validation helper from a list of parser options
 // Not all parser options will impact validation
 // If you already have a custom parser, you can use its ValidationHelper value
 // instead of creating a new one
-func NewValidationHelper(options ...ParserOption) *ValidationHelper {
+func NewValidationHelper(options ...ParserOptions) *ValidationHelper {
 	p := NewParser(options...)
 	return p.ValidationHelper
 }
@@ -101,11 +101,11 @@ func (h *ValidationHelper) ValidateAudience(aud ClaimStrings) error {
 	}
 
 	// If there is an audience claim, but no value provided, fail
-	if h.audience == nil {
+	if h.audience == "" {
 		return &InvalidAudienceError{Message: "audience value was expected but not provided"}
 	}
 
-	return h.ValidateAudienceAgainst(aud, *h.audience)
+	return h.ValidateAudienceAgainst(aud, h.audience)
 }
 
 // ValidateAudienceAgainst checks that the compare value is included in the aud list
@@ -134,11 +134,11 @@ func (h *ValidationHelper) ValidateAudienceAgainst(aud ClaimStrings, compare str
 // ValidateIssuer checks the claim value against the value provided by WithIssuer
 func (h *ValidationHelper) ValidateIssuer(iss string) error {
 	// Always passes validation if issuer is not provided
-	if h.issuer == nil {
+	if h.issuer == "" {
 		return nil
 	}
 
-	return h.ValidateIssuerAgainst(iss, *h.issuer)
+	return h.ValidateIssuerAgainst(iss, h.issuer)
 }
 
 // ValidateIssuerAgainst checks the claim value against the value provided, ignoring the WithIssuer value

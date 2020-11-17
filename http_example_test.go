@@ -30,11 +30,6 @@ var (
 	verifyKey  *rsa.PublicKey
 	signKey    *rsa.PrivateKey
 	serverPort int
-	// storing sample username/password pairs
-	// don't do this on a real server
-	users = map[string]string{
-		"test": "known",
-	}
 )
 
 // read the key files before starting http handlers

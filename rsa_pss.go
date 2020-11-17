@@ -16,7 +16,6 @@ type SigningMethodRSAPSS struct {
 	// VerifyOptions is optional. If set overrides Options for rsa.VerifyPPS.
 	// Used to accept tokens signed with rsa.PSSSaltLengthAuto, what doesn't follow
 	// https://tools.ietf.org/html/rfc7518#section-3.5 but was used previously.
-	// See https://github.com/malusev998/jwt-go/v4/issues/285#issuecomment-437451244 for details.
 	VerifyOptions *rsa.PSSOptions
 }
 

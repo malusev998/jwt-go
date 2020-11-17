@@ -13,7 +13,7 @@ import (
 	"golang.org/x/xerrors"
 )
 
-var keyFuncError error = fmt.Errorf("error loading key")
+var keyFuncError = fmt.Errorf("error loading key")
 
 var (
 	jwtTestDefaultKey *rsa.PublicKey
@@ -79,7 +79,7 @@ var jwtTestData = []struct {
 		jwt.MapClaims{"foo": "bar", "nbf": float64(time.Now().Unix() + 50), "exp": float64(time.Now().Unix() - 50)},
 		true,
 		nil,
-		jwt.NewParser(jwt.WithLeeway(100 * time.Second)),
+		jwt.NewParser(jwt.ParserOptions{Leeway: 100 * time.Second}),
 	},
 	{
 		"basic invalid",
@@ -124,7 +124,7 @@ var jwtTestData = []struct {
 		jwt.MapClaims{"foo": "bar"},
 		false,
 		[]error{&jwt.InvalidSignatureError{}},
-		jwt.NewParser(jwt.WithValidMethods([]string{"HS256"})),
+		jwt.NewParser(jwt.ParserOptions{ValidAlgorithms: []string{"HS256"}}),
 	},
 	{
 		"valid signing method",
@@ -133,7 +133,7 @@ var jwtTestData = []struct {
 		jwt.MapClaims{"foo": "bar"},
 		true,
 		nil,
-		jwt.NewParser(jwt.WithValidMethods([]string{"RS256", "HS256"})),
+		jwt.NewParser(jwt.ParserOptions{ValidAlgorithms: []string{"RS256", "HS256"}}),
 	},
 	{
 		"JSON Number",
@@ -142,7 +142,7 @@ var jwtTestData = []struct {
 		jwt.MapClaims{"foo": json.Number("123.4")},
 		true,
 		nil,
-		jwt.NewParser(jwt.WithJSONNumber()),
+		jwt.NewParser(jwt.ParserOptions{JSONNumber: true}),
 	},
 	{
 		"Standard Claims",
@@ -153,7 +153,7 @@ var jwtTestData = []struct {
 		},
 		true,
 		nil,
-		jwt.NewParser(jwt.WithJSONNumber()),
+		jwt.NewParser(jwt.ParserOptions{JSONNumber: true}),
 	},
 	{
 		"JSON Number - basic expired",
@@ -162,7 +162,7 @@ var jwtTestData = []struct {
 		jwt.MapClaims{"foo": "bar", "exp": json.Number(fmt.Sprintf("%v", time.Now().Unix()-100))},
 		false,
 		[]error{&jwt.TokenExpiredError{}},
-		jwt.NewParser(jwt.WithJSONNumber()),
+		jwt.NewParser(jwt.ParserOptions{JSONNumber: true}),
 	},
 	{
 		"JSON Number - basic nbf",
@@ -171,7 +171,7 @@ var jwtTestData = []struct {
 		jwt.MapClaims{"foo": "bar", "nbf": json.Number(fmt.Sprintf("%v", time.Now().Unix()+100))},
 		false,
 		[]error{&jwt.TokenNotValidYetError{}},
-		jwt.NewParser(jwt.WithJSONNumber()),
+		jwt.NewParser(jwt.ParserOptions{JSONNumber: true}),
 	},
 	{
 		"JSON Number - expired and nbf",
@@ -180,7 +180,7 @@ var jwtTestData = []struct {
 		jwt.MapClaims{"foo": "bar", "nbf": json.Number(fmt.Sprintf("%v", time.Now().Unix()+100)), "exp": json.Number(fmt.Sprintf("%v", time.Now().Unix()-100))},
 		false,
 		[]error{&jwt.TokenExpiredError{}, &jwt.TokenNotValidYetError{}},
-		jwt.NewParser(jwt.WithJSONNumber()),
+		jwt.NewParser(jwt.ParserOptions{JSONNumber: true}),
 	},
 	{
 		"SkipClaimsValidation during token parsing",
@@ -189,7 +189,7 @@ var jwtTestData = []struct {
 		jwt.MapClaims{"foo": "bar", "nbf": json.Number(fmt.Sprintf("%v", time.Now().Unix()+100))},
 		true,
 		nil,
-		jwt.NewParser(jwt.WithJSONNumber(), jwt.WithoutClaimsValidation()),
+		jwt.NewParser(jwt.ParserOptions{JSONNumber: true, SkipClaimValidations: true}),
 	},
 	{
 		"Audience - Required",
@@ -207,7 +207,7 @@ var jwtTestData = []struct {
 		jwt.MapClaims{"aud": []interface{}{"foo", "bar"}},
 		false,
 		[]error{&jwt.InvalidAudienceError{}},
-		jwt.NewParser(jwt.WithAudience("baz")),
+		jwt.NewParser(jwt.ParserOptions{Audience: "baz"}),
 	},
 	{
 		"Issuer - Pass",
@@ -216,7 +216,7 @@ var jwtTestData = []struct {
 		jwt.MapClaims{"iss": "foo"},
 		true,
 		nil,
-		jwt.NewParser(jwt.WithIssuer("foo")),
+		jwt.NewParser(jwt.ParserOptions{Issuer: "foo"}),
 	},
 	{
 		"Issuer - Fail",
@@ -225,7 +225,7 @@ var jwtTestData = []struct {
 		jwt.MapClaims{"iss": "foo"},
 		false,
 		[]error{&jwt.InvalidIssuerError{}},
-		jwt.NewParser(jwt.WithIssuer("bar")),
+		jwt.NewParser(jwt.ParserOptions{Issuer: "bar"}),
 	},
 	{
 		"Issuer - Provided but not in claims",
@@ -234,7 +234,7 @@ var jwtTestData = []struct {
 		jwt.MapClaims{},
 		false,
 		[]error{&jwt.InvalidIssuerError{}},
-		jwt.NewParser(jwt.WithIssuer("bar")),
+		jwt.NewParser(jwt.ParserOptions{Issuer: "bar"}),
 	},
 	{
 		"Issuer - Ignored",

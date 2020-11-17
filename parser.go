@@ -5,24 +5,70 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
+	"time"
 )
 
-// Parser is the type used to parse and validate a JWT token from string
-type Parser struct {
-	validMethods         []string          // If populated, only these methods will be considered valid
-	useJSONNumber        bool              // Use JSON Number format in JSON decoder
-	skipClaimsValidation bool              // Skip claims validation during token parsing
-	unmarshaller         TokenUnmarshaller // Use this instead of encoding/json
-	*ValidationHelper
+type (
+	TokenUnmarshaller func(ctx CodingContext, data []byte, v interface{}) error
+
+	// Parser is the type used to parse and validate a JWT token from string
+	Parser struct {
+		validAlgorithms      []string          // If populated, only these methods will be considered valid
+		useJSONNumber        bool              // Use JSON Number format in JSON decoder
+		skipClaimsValidation bool              // Skip claims validation during token parsing
+		unmarshaller         TokenUnmarshaller // Use this instead of encoding/json
+		*ValidationHelper
+	}
+
+	ParserOptions struct {
+		Unmarshaller         TokenUnmarshaller
+		ValidAlgorithms      []string
+		JSONNumber           bool
+		SkipClaimValidations bool
+		AudienceValidation   bool
+		Leeway               time.Duration
+		Audience             string
+		Issuer               string
+	}
+)
+
+var DefaultParserOptions = ParserOptions{
+	Unmarshaller:         nil,
+	ValidAlgorithms:      nil,
+	JSONNumber:           false,
+	SkipClaimValidations: false,
+	AudienceValidation:   false,
+	Leeway:               0,
+	Audience:             "",
+	Issuer:               "",
 }
 
 // NewParser returns a new Parser with the specified options
-func NewParser(options ...ParserOption) *Parser {
-	p := &Parser{
-		ValidationHelper: new(ValidationHelper),
+func NewParser(options ...ParserOptions) *Parser {
+	o := DefaultParserOptions
+
+	if len(options) > 0 {
+		o = options[0]
 	}
-	for _, option := range options {
-		option(p)
+
+	if o.Audience != "" {
+		o.AudienceValidation = true
+	}
+
+
+	helper := &ValidationHelper{
+		skipAudience: o.AudienceValidation,
+		issuer:       o.Issuer,
+		audience:     o.Audience,
+		leeway:       o.Leeway,
+	}
+
+	p := &Parser{
+		validAlgorithms:      o.ValidAlgorithms,
+		useJSONNumber:        o.JSONNumber,
+		skipClaimsValidation: o.SkipClaimValidations,
+		ValidationHelper:     helper,
+		unmarshaller:         o.Unmarshaller,
 	}
 	return p
 }
@@ -42,10 +88,10 @@ func (p *Parser) ParseWithClaims(tokenString string, claims Claims, keyFunc Keyf
 	}
 
 	// Verify signing method is in the required set
-	if p.validMethods != nil {
-		var signingMethodValid = false
-		var alg = token.Method.Alg()
-		for _, m := range p.validMethods {
+	if p.validAlgorithms != nil {
+		signingMethodValid := false
+		alg := token.Method.Alg()
+		for _, m := range p.validAlgorithms {
 			if m == alg {
 				signingMethodValid = true
 				break
@@ -106,7 +152,7 @@ func (p *Parser) ParseUnverified(tokenString string, claims Claims) (token *Toke
 	token = &Token{Raw: tokenString}
 
 	// choose unmarshaller
-	var unmarshaller = p.unmarshaller
+	unmarshaller := p.unmarshaller
 	if unmarshaller == nil {
 		unmarshaller = p.defaultUnmarshaller
 	}

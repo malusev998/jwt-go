@@ -6,6 +6,15 @@ import (
 	"errors"
 )
 
+const (
+	HmacSha256 = "HS256"
+	HmacSha384 = "HS384"
+	HmacSha512 = "HS512"
+	HmacBlake2b256 = "Blake2b256"
+	HmacBlake2b384 = "Blake2b384"
+	HmacBlake2b512 = "Blake2b512"
+)
+
 // SigningMethodHMAC implements the HMAC-SHA family of signing methods
 // Expects key type of []byte for both signing and validation
 type SigningMethodHMAC struct {
@@ -18,26 +27,44 @@ var (
 	SigningMethodHS256  *SigningMethodHMAC
 	SigningMethodHS384  *SigningMethodHMAC
 	SigningMethodHS512  *SigningMethodHMAC
+	SigningMethodBlake2b256  *SigningMethodHMAC
+	SigningMethodBlake2b384  *SigningMethodHMAC
+	SigningMethodBlake2b512  *SigningMethodHMAC
 	ErrSignatureInvalid = errors.New("signature is invalid")
 )
 
 func init() {
 	// HS256
-	SigningMethodHS256 = &SigningMethodHMAC{"HS256", crypto.SHA256}
+	SigningMethodHS256 = &SigningMethodHMAC{HmacSha256, crypto.SHA256}
 	RegisterSigningMethod(SigningMethodHS256.Alg(), func() SigningMethod {
 		return SigningMethodHS256
 	})
 
 	// HS384
-	SigningMethodHS384 = &SigningMethodHMAC{"HS384", crypto.SHA384}
+	SigningMethodHS384 = &SigningMethodHMAC{HmacSha384, crypto.SHA384}
 	RegisterSigningMethod(SigningMethodHS384.Alg(), func() SigningMethod {
 		return SigningMethodHS384
 	})
 
 	// HS512
-	SigningMethodHS512 = &SigningMethodHMAC{"HS512", crypto.SHA512}
+	SigningMethodHS512 = &SigningMethodHMAC{HmacSha512, crypto.SHA512}
 	RegisterSigningMethod(SigningMethodHS512.Alg(), func() SigningMethod {
 		return SigningMethodHS512
+	})
+
+	SigningMethodBlake2b256 = &SigningMethodHMAC{HmacBlake2b256, crypto.BLAKE2b_256}
+	RegisterSigningMethod(SigningMethodBlake2b256.Alg(), func() SigningMethod {
+		return SigningMethodBlake2b256
+	})
+
+	SigningMethodBlake2b512 = &SigningMethodHMAC{HmacBlake2b384, crypto.BLAKE2b_384}
+	RegisterSigningMethod(SigningMethodBlake2b512.Alg(), func() SigningMethod {
+		return SigningMethodBlake2b384
+	})
+
+	SigningMethodBlake2b512 = &SigningMethodHMAC{HmacBlake2b512, crypto.BLAKE2b_512}
+	RegisterSigningMethod(SigningMethodBlake2b512.Alg(), func() SigningMethod {
+		return SigningMethodBlake2b512
 	})
 }
 
