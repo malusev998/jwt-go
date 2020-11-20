@@ -10,13 +10,13 @@ import (
 type ClaimStrings []string
 
 // ParseClaimStrings is used to produce a ClaimStrings value
-// from the various forms it may present during encoding/decodeing
+// from the various forms it may present during encoding/decoding
 func ParseClaimStrings(value interface{}) (ClaimStrings, error) {
 	switch v := value.(type) {
 	case string:
 		return ClaimStrings{v}, nil
 	case []string:
-		return ClaimStrings(v), nil
+		return v, nil
 	case nil:
 		return nil, nil
 	default:
@@ -25,9 +25,9 @@ func ParseClaimStrings(value interface{}) (ClaimStrings, error) {
 }
 
 // UnmarshalJSON implements the json package's Unmarshaler interface
-func (c *ClaimStrings) UnmarshalJSON(data []byte) error {
+func (c *ClaimStrings) UnmarshalJSON(data []byte) (err error) {
 	var value interface{}
-	err := json.Unmarshal(data, &value)
+	err = json.Unmarshal(data, &value)
 	if err != nil {
 		return err
 	}

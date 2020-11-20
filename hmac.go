@@ -52,16 +52,19 @@ func init() {
 		return SigningMethodHS512
 	})
 
+	// Blake2b 256
 	SigningMethodBlake2b256 = &SigningMethodHMAC{HmacBlake2b256, crypto.BLAKE2b_256}
 	RegisterSigningMethod(SigningMethodBlake2b256.Alg(), func() SigningMethod {
 		return SigningMethodBlake2b256
 	})
 
-	SigningMethodBlake2b512 = &SigningMethodHMAC{HmacBlake2b384, crypto.BLAKE2b_384}
-	RegisterSigningMethod(SigningMethodBlake2b512.Alg(), func() SigningMethod {
+	// Blake2b 384
+	SigningMethodBlake2b384 = &SigningMethodHMAC{HmacBlake2b384, crypto.BLAKE2b_384}
+	RegisterSigningMethod(SigningMethodBlake2b384.Alg(), func() SigningMethod {
 		return SigningMethodBlake2b384
 	})
 
+	// Blake2b 512
 	SigningMethodBlake2b512 = &SigningMethodHMAC{HmacBlake2b512, crypto.BLAKE2b_512}
 	RegisterSigningMethod(SigningMethodBlake2b512.Alg(), func() SigningMethod {
 		return SigningMethodBlake2b512
@@ -73,7 +76,7 @@ func (m *SigningMethodHMAC) Alg() string {
 	return m.Name
 }
 
-// Verify the signature of HSXXX tokens.  Returns nil if the signature is valid.
+// Verify the signature of HSXXX and Blake2bXXX tokens.  Returns nil if the signature is valid.
 // Key must be []byte
 func (m *SigningMethodHMAC) Verify(signingString, signature string, key interface{}) error {
 	// Verify the key is the right type
