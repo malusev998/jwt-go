@@ -15,11 +15,11 @@ var DefaultValidationHelper = &ValidationHelper{}
 // behavior is required while still being able to call upon the standard behavior
 // as necessary.
 type ValidationHelper struct {
-	nowFunc      func() time.Time // Override for time.Now. Mostly used for testing
-	leeway       time.Duration    // Leeway to provide when validating time values
-	audience     string          // Expected audience value
-	skipAudience bool             // Ignore aud check
-	issuer       string          // Expected issuer value. ignored if nil
+	nowFunc            func() time.Time // Override for time.Now. Mostly used for testing
+	leeway             time.Duration    // Leeway to provide when validating time values
+	audience           string           // Expected audience value
+	audienceValidation bool             // Ignore aud check
+	issuer             string           // Expected issuer value. ignored if nil
 }
 
 // NewValidationHelper creates a validation helper from a list of parser options
@@ -91,7 +91,7 @@ func (h *ValidationHelper) ValidateNotBefore(nbf *Time) error {
 // claim is present,
 func (h *ValidationHelper) ValidateAudience(aud ClaimStrings) error {
 	// Skip flag
-	if h.skipAudience {
+	if !h.audienceValidation {
 		return nil
 	}
 

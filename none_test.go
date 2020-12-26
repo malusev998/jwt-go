@@ -42,6 +42,7 @@ var noneTestData = []struct {
 }
 
 func TestNoneVerify(t *testing.T) {
+	t.Parallel()
 	for _, data := range noneTestData {
 		parts := strings.Split(data.tokenString, ".")
 

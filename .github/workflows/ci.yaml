@@ -1,0 +1,25 @@
+name: 'Go - JWT Continous Integration'
+
+on:
+  push:
+    branches:
+     - master
+     - dev
+  pull_request:
+    branches:
+     - master
+jobs:
+ st-jwt:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: true
+      matrix:
+        go: ['1.14', '1.15']
+    name: Test
+    steps:
+      - uses: actions/checkout@v2
+        name: 'Checkout'
+      - uses: actions/setup-go@v1
+        with:
+          go-version: ${{matrix.go}}
+      - run: go test ./... -race

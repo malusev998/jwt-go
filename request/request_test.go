@@ -55,6 +55,7 @@ var requestTestData = []struct {
 }
 
 func TestParseRequest(t *testing.T) {
+	t.Parallel()
 	// load keys from disk
 	privateKey := test.LoadRSAPrivateKeyFromDisk("../test/sample_key")
 	publicKey := test.LoadRSAPublicKeyFromDisk("../test/sample_key.pub")

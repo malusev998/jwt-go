@@ -17,6 +17,16 @@ func ParseClaimStrings(value interface{}) (ClaimStrings, error) {
 		return ClaimStrings{v}, nil
 	case []string:
 		return v, nil
+	case []interface{}:
+		arr := make(ClaimStrings, 0, len(v))
+		for _, item := range v {
+			str, ok := item.(string)
+			if !ok {
+				return nil, &json.UnsupportedTypeError{Type: reflect.TypeOf(item)}
+			}
+			arr = append(arr, str)
+		}
+		return arr, nil
 	case nil:
 		return nil, nil
 	default:

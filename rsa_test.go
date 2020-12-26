@@ -83,6 +83,7 @@ func TestRSASign(t *testing.T) {
 }
 
 func TestRSAVerifyWithPreParsedPrivateKey(t *testing.T) {
+	t.Parallel()
 	key, _ := ioutil.ReadFile("test/sample_key.pub")
 	parsedKey, err := jwt.ParseRSAPublicKeyFromPEM(key)
 	if err != nil {
@@ -97,6 +98,7 @@ func TestRSAVerifyWithPreParsedPrivateKey(t *testing.T) {
 }
 
 func TestRSAWithPreParsedPrivateKey(t *testing.T) {
+	t.Parallel()
 	key, _ := ioutil.ReadFile("test/sample_key")
 	parsedKey, err := jwt.ParseRSAPrivateKeyFromPEM(key)
 	if err != nil {
@@ -114,6 +116,7 @@ func TestRSAWithPreParsedPrivateKey(t *testing.T) {
 }
 
 func TestRSAKeyParsing(t *testing.T) {
+	t.Parallel()
 	key, _ := ioutil.ReadFile("test/sample_key")
 	secureKey, _ := ioutil.ReadFile("test/privateSecure.pem")
 	pubKey, _ := ioutil.ReadFile("test/sample_key.pub")

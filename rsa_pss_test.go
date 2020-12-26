@@ -75,6 +75,7 @@ func TestRSAPSSVerify(t *testing.T) {
 }
 
 func TestRSAPSSSign(t *testing.T) {
+	t.Parallel()
 	var err error
 
 	key, _ := ioutil.ReadFile("test/sample_key")

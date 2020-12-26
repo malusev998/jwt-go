@@ -211,24 +211,23 @@ func signToken() error {
 		}
 	}
 
-	if isEs() {
-		if k, ok := key.([]byte); !ok {
-			return fmt.Errorf("couldn't convert key data to key")
-		} else {
-			key, err = jwt.ParseECPrivateKeyFromPEM(k)
-			if err != nil {
-				return err
-			}
-		}
-	} else if isRs() {
-		if k, ok := key.([]byte); !ok {
-			return fmt.Errorf("couldn't convert key data to key")
-		} else {
-			key, err = jwt.ParseRSAPrivateKeyFromPEM(k)
-			if err != nil {
-				return err
-			}
-		}
+	k, ok := key.([]byte)
+
+	if !ok {
+		return fmt.Errorf("Couldn't convert key data to key")
+	}
+
+	switch {
+	case isEs():
+		key, err = jwt.ParseECPrivateKeyFromPEM(k)
+	case isRs():
+		key, err = jwt.ParseRSAPrivateKeyFromPEM(k)
+	case isEd():
+		key, err = jwt.ParseEdPrivateKeyFromPEM(k)
+	}
+
+	if err != nil {
+		return err
 	}
 
 	if out, err := token.SignedString(key); err == nil {
@@ -279,4 +278,8 @@ func isEs() bool {
 
 func isRs() bool {
 	return strings.HasPrefix(*flagAlg, "RS") || strings.HasPrefix(*flagAlg, "PS")
+}
+
+func isEd() bool {
+	return strings.HasPrefix(strings.ToUpper(*flagAlg), "ED")
 }

@@ -76,6 +76,7 @@ func TestECDSAVerify(t *testing.T) {
 }
 
 func TestECDSASign(t *testing.T) {
+	t.Parallel()
 	for _, data := range ecdsaTestData {
 		var err error
 		key, _ := ioutil.ReadFile(data.keys["private"])

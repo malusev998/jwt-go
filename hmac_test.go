@@ -108,10 +108,8 @@ func TestHMACSign(t *testing.T) {
 	}
 }
 
-
 // Sample data from http://tools.ietf.org/html/draft-jones-json-web-signature-04#appendix-A.1
 var hmacTestKey, _ = ioutil.ReadFile("test/hmacTestKey")
-
 
 func BenchmarkHS256Signing(b *testing.B) {
 	benchmarkSigning(b, jwt.SigningMethodHS256, hmacTestKey)

@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/dgrijalva/jwt-go/v4"
+	"github.com/malusev998/jwt-go/v4"
 )
 
 var claimStringsTestData = []struct {
@@ -44,8 +44,9 @@ var claimStringsTestData = []struct {
 }
 
 func TestClaimStrings(t *testing.T) {
+	t.Parallel()
 	for _, test := range claimStringsTestData {
-		var r *struct {
+		var r struct {
 			Value jwt.ClaimStrings `json:"value"`
 		}
 		data, _ := json.Marshal(map[string]interface{}{"value": test.input})

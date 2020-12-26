@@ -64,6 +64,7 @@ var extractorTestData = []struct {
 }
 
 func TestExtractor(t *testing.T) {
+	t.Parallel()
 	// Bearer token request
 	for _, data := range extractorTestData {
 		// Make request from test struct

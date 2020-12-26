@@ -6,11 +6,12 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/dgrijalva/jwt-go/v4"
-	"github.com/dgrijalva/jwt-go/v4/test"
+	"github.com/malusev998/jwt-go/v4"
+	"github.com/malusev998/jwt-go/v4/test"
 )
 
 func TestCustomCodec(t *testing.T) {
+	t.Parallel()
 	var customEncoderUsed = false
 	var encoder = func(ctx jwt.CodingContext, v interface{}) ([]byte, error) {
 		customEncoderUsed = true
@@ -51,7 +52,13 @@ func TestCustomCodec(t *testing.T) {
 	}
 
 	// Decode the token
-	parsedToken, err := jwt.Parse(tokenString, jwt.KnownKeyfunc(jwt.SigningMethodRS256, publicKey), jwt.WithUnmarshaller(decoder))
+	parsedToken, err := jwt.Parse(
+		tokenString,
+		jwt.KnownKeyfunc(jwt.SigningMethodRS256, publicKey),
+		jwt.ParserOptions{
+			Unmarshaller: decoder,
+		},
+	)
 	if err != nil {
 		t.Fatalf("Unexpected error when encoding: %v", err)
 	}

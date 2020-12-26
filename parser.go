@@ -51,13 +51,12 @@ func NewParser(options ...ParserOptions) *Parser {
 		o = options[0]
 	}
 
-	if o.Audience != "" {
+	if o.AudienceValidation == false && o.Audience != "" {
 		o.AudienceValidation = true
 	}
 
-
 	helper := &ValidationHelper{
-		skipAudience: o.AudienceValidation,
+		audienceValidation: o.AudienceValidation,
 		issuer:       o.Issuer,
 		audience:     o.Audience,
 		leeway:       o.Leeway,

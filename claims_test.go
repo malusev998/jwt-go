@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/dgrijalva/jwt-go/v4"
-	"github.com/dgrijalva/jwt-go/v4/test"
+	"github.com/malusev998/jwt-go/v4"
+	"github.com/malusev998/jwt-go/v4/test"
 	"golang.org/x/xerrors"
 )
 
@@ -39,6 +39,7 @@ var claimsTestData = []struct {
 }
 
 func TestClaimValidExpired(t *testing.T) {
+	t.Parallel()
 	for _, data := range claimsTestData {
 		t.Log(data.name)
 		t.Logf("\t%s", data.need)
