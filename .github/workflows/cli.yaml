@@ -27,8 +27,7 @@ jobs:
         with:
           go-version: ${{matrix.go}}
       - run: |
-          cd cmd/jwt && go build -o jwt
-          mv jwt ../../dist/
+          cd cmd/jwt && go build -o ../../dist/jwt
       - run: go test ./... -race
       - name: Release
         uses: actions/create-release@v1
