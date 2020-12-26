@@ -1,8 +1,9 @@
 # jwt-go
 
-[![Build Status](https://travis-ci.org/dgrijalva/jwt-go.svg?branch=master)](https://travis-ci.org/dgrijalva/jwt-go)
-[![GoDoc](https://godoc.org/github.com/malusev998/jwt-go/v4?status.svg)](https://godoc.org/github.com/malusev998/jwt-go/v4)
-
+![Continous Integration - Pull Requests](https://github.com/malusev998/jwt-go/workflows/Go%20-%20JWT%20Continous%20Integration/badge.svg?branch=master&event=pull_request)
+![Build](https://github.com/malusev998/jwt-go/workflows/Go%20-%20JWT%20Continous%20Integration/badge.svg?branch=master)
+[![GoDoc](https://godoc.org/github.com/malusev998/jwt-go/v4?status.svg)](https://pkg.go.dev/github.com/malusev998/jwt-go/v4)
+[![codecov](https://codecov.io/gh/malusev998/jwt-go/branch/master/graph/badge.svg?token=N9AEE7FJES)](https://codecov.io/gh/malusev998/jwt-go)
 A [go](http://www.golang.org) (or 'golang' for search engine friendliness) implementation of [JSON Web Tokens](http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html)
 
 **NEW VERSION:** Version 4 of this library is now available. This is the first non-backward-compatible version in a long time. There are a few changes that all users will notice, such as the new types introduced in members of `StandardClaims`. More changes are additive or only impact more advanced use. See VERSION_HISTORY.md for a list of changes as well as **TODO** MIGRATION_GUIDE.md for help updating your code.

@@ -22,4 +22,12 @@ jobs:
       - uses: actions/setup-go@v1
         with:
           go-version: ${{matrix.go}}
-      - run: go test ./... -race
+      - run: go test ./... -race -covermode=atomic -coverprofile=coverage.txt
+      - uses: codecov/codecov-action@v1 
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.txt 
+          flags: unittests 
+          name: codecov-umbrella 
+          fail_ci_if_error: true
+          verbose: true
