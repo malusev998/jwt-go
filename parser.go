@@ -57,9 +57,9 @@ func NewParser(options ...ParserOptions) *Parser {
 
 	helper := &ValidationHelper{
 		audienceValidation: o.AudienceValidation,
-		issuer:       o.Issuer,
-		audience:     o.Audience,
-		leeway:       o.Leeway,
+		issuer:             o.Issuer,
+		audience:           o.Audience,
+		leeway:             o.Leeway,
 	}
 
 	p := &Parser{

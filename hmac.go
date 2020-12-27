@@ -7,9 +7,9 @@ import (
 )
 
 const (
-	HmacSha256 = "HS256"
-	HmacSha384 = "HS384"
-	HmacSha512 = "HS512"
+	HmacSha256     = "HS256"
+	HmacSha384     = "HS384"
+	HmacSha512     = "HS512"
 	HmacBlake2b256 = "Blake2b256"
 	HmacBlake2b384 = "Blake2b384"
 	HmacBlake2b512 = "Blake2b512"
@@ -24,13 +24,13 @@ type SigningMethodHMAC struct {
 
 // Specific instances for HS256 and company
 var (
-	SigningMethodHS256  *SigningMethodHMAC
-	SigningMethodHS384  *SigningMethodHMAC
-	SigningMethodHS512  *SigningMethodHMAC
-	SigningMethodBlake2b256  *SigningMethodHMAC
-	SigningMethodBlake2b384  *SigningMethodHMAC
-	SigningMethodBlake2b512  *SigningMethodHMAC
-	ErrSignatureInvalid = errors.New("signature is invalid")
+	SigningMethodHS256      *SigningMethodHMAC
+	SigningMethodHS384      *SigningMethodHMAC
+	SigningMethodHS512      *SigningMethodHMAC
+	SigningMethodBlake2b256 *SigningMethodHMAC
+	SigningMethodBlake2b384 *SigningMethodHMAC
+	SigningMethodBlake2b512 *SigningMethodHMAC
+	ErrSignatureInvalid     = errors.New("signature is invalid")
 )
 
 func init() {
